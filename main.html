@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Content Management Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f2f2f2;
+        }
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .btn-edit, .btn-delete {
+            padding: 5px 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-right: 5px;
+        }
+
+        .btn-delete {
+            background-color: #f44336;
+        }
+
+        .btn-edit:hover, .btn-delete:hover {
+            opacity: 0.8;
+        }
+        /* General Styles */
+        body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        }
+
+        h1 {
+        font-size: 28px;
+        margin-bottom: 10px;
+        }
+
+        h2 {
+        font-size: 24px;
+        margin-bottom: 5px;
+        }
+
+        /* Table Styles */
+        table {
+        border-collapse: collapse;
+        width: 100%;
+        margin-top: 20px;
+        }
+
+        th, td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+        }
+
+        /* Button Styles */
+        button {
+        padding: 5px 10px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        cursor: pointer;
+        margin-right: 5px;
+        }
+
+        .btn-delete {
+        background-color: #f44336;
+        }
+
+        button:hover {
+        opacity: 0.8;
+        }
+
+        /* Form Styles */
+        form {
+        margin-bottom: 20px;
+        }
+
+        label {
+        font-weight: bold;
+        margin-right: 5px;
+        }
+
+        input[type="text"], textarea {
+        width: 100%;
+        padding: 5px;
+        margin-bottom: 10px;
+        }
+
+        textarea {
+        height: 100px;
+        }
+
+    </style>
+</head>
+
+<body>
+    <h1><center>Content Management Tool</center></h1>
+    <h2>Add Article</h2></br>
+    <form id="addForm">
+        <label for="title">Title:</label>
+        <input type="text" id="title" required><br><br>
+        <label for="content">Content:</label><br>
+        <textarea id="content" required></textarea><br><br>
+        <button type="submit">Add</button>
+    </form>
+    <hr>
+    <h2>Articles</h2>
+    <table id="articleTable">
+        <tr>
+            <th>Title</th>
+            <th>Content</th>
+            <th>Actions</th>
+        </tr>
+    </table>
+
+    <script>
+        const addForm = document.getElementById('addForm');
+        const titleInput = document.getElementById('title');
+        const contentInput = document.getElementById('content');
+        const articleTable = document.getElementById('articleTable');
+
+        // Function to add a new article
+        addForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const title = titleInput.value;
+            const content = contentInput.value;
+
+            const newRow = articleTable.insertRow();
+
+            const titleCell = newRow.insertCell();
+            const contentCell = newRow.insertCell();
+            const actionsCell = newRow.insertCell();
+
+            titleCell.innerHTML = title;
+            contentCell.innerHTML = content;
+            actionsCell.innerHTML = `
+                <button class="btn-edit">Edit</button>
+                <button class="btn-delete">Delete</button>
+            `;
+            titleInput.value = '';
+            contentInput.value = '';
+        });
+
+        articleTable.addEventListener('click', function(event) {
+            if (event.target.classList.contains('btn-edit')) {
+                const row = event.target.parentNode.parentNode;
+                const titleCell = row.cells[0];
+                const contentCell = row.cells[1];
+
+                const title = titleCell.innerHTML;
+                const content = contentCell.innerHTML;
+                titleInput.value = title;
+                contentInput.value = content;
+                articleTable.deleteRow(row.rowIndex);
+            } else if (event.target.classList.contains('btn-delete')) {
+                const row = event.target.parentNode.parentNode;
+                articleTable.deleteRow(row.rowIndex);
+            }
+        });
+    </script>
+</body>
+</html>
